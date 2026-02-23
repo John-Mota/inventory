@@ -3,6 +3,7 @@ package com.autoflex.inventory.controller;
 import com.autoflex.inventory.dto.request.RawMaterialRequest;
 import com.autoflex.inventory.dto.response.RawMaterialResponse;
 import com.autoflex.inventory.service.RawMaterialService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +29,12 @@ public class RawMaterialController {
     }
 
     @PostMapping
-    public ResponseEntity<RawMaterialResponse> create(@RequestBody RawMaterialRequest request) {
+    public ResponseEntity<RawMaterialResponse> create(@Valid @RequestBody RawMaterialRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(rawMaterialService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RawMaterialResponse> update(@PathVariable UUID id, @RequestBody RawMaterialRequest request) {
+    public ResponseEntity<RawMaterialResponse> update(@PathVariable UUID id, @Valid @RequestBody RawMaterialRequest request) {
         return ResponseEntity.ok(rawMaterialService.update(id, request));
     }
 
