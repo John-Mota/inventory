@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductRawMaterialResponse addRawMaterial(UUID productId, ProductRawMaterialRequest request) {
         Product product = getProduct(productId);
         RawMaterial rawMaterial = rawMaterialRepository.findById(request.rawMaterialId())
-                .orElseThrow(() -> new ResourceNotFoundException("Raw material not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Matéria-prima não encontrada"));
 
         ProductRawMaterial prm = ProductRawMaterial.builder()
                 .product(product)
@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
 
     private Product getProduct(UUID id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
     }
 
     private ProductResponse toResponse(Product product) {

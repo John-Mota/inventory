@@ -54,7 +54,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
 
     private RawMaterial getRawMaterial(UUID id) {
         return rawMaterialRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Raw material not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Matéria-prima não encontrada"));
     }
 
     private RawMaterialResponse toResponse(RawMaterial rawMaterial) {
