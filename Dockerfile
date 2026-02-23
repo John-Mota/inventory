@@ -49,6 +49,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 
 # Variáveis de ambiente (devem ser fornecidas no docker run ou docker-compose)
 # DB_URL        - URL de conexão com o PostgreSQL (ex: jdbc:postgresql://host:5432/dbname)
+# DB_USERNAME   - Usuário do banco de dados (ex: postgres)
 # DB_PASSWORD   - Senha do banco de dados
 
 # Inicia a aplicação com otimizações para containers
