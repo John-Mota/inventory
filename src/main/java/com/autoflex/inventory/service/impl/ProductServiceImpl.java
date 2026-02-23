@@ -7,6 +7,7 @@ import com.autoflex.inventory.dto.response.ProductResponse;
 import com.autoflex.inventory.entity.Product;
 import com.autoflex.inventory.entity.ProductRawMaterial;
 import com.autoflex.inventory.entity.RawMaterial;
+import com.autoflex.inventory.exception.ResourceNotFoundException;
 import com.autoflex.inventory.service.ProductService;
 import com.autoflex.inventory.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductRawMaterialResponse addRawMaterial(UUID productId, ProductRawMaterialRequest request) {
         Product product = getProduct(productId);
         RawMaterial rawMaterial = rawMaterialRepository.findById(request.rawMaterialId())
-                .orElseThrow(() -> new RuntimeException("Raw material not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Raw material not found"));
 
         ProductRawMaterial prm = ProductRawMaterial.builder()
                 .product(product)
@@ -78,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
 
     private Product getProduct(UUID id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
     }
 
     private ProductResponse toResponse(Product product) {

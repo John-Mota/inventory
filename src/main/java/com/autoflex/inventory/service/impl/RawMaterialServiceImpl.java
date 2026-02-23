@@ -3,6 +3,7 @@ package com.autoflex.inventory.service.impl;
 import com.autoflex.inventory.dto.request.RawMaterialRequest;
 import com.autoflex.inventory.dto.response.RawMaterialResponse;
 import com.autoflex.inventory.entity.RawMaterial;
+import com.autoflex.inventory.exception.ResourceNotFoundException;
 import com.autoflex.inventory.repository.RawMaterialRepository;
 import com.autoflex.inventory.service.RawMaterialService;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +54,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
 
     private RawMaterial getRawMaterial(UUID id) {
         return rawMaterialRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Raw material not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Raw material not found"));
     }
 
     private RawMaterialResponse toResponse(RawMaterial rawMaterial) {
