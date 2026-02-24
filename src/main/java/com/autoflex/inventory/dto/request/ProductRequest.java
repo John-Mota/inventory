@@ -1,6 +1,5 @@
 package com.autoflex.inventory.dto.request;
 
-import com.autoflex.inventory.dto.response.ProductRawMaterialResponse;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -16,6 +15,6 @@ public record ProductRequest(
     @Positive(message = "O valor do produto deve ser positivo")
     BigDecimal value,
 
-    List<ProductRawMaterialResponse>rawMaterials
+    List<ProductRawMaterialRequest>rawMaterials
 ) {
 }
