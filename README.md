@@ -2,6 +2,7 @@
 
 ## 📖 Project Overview
 
+
 **Autoflex Inventory API** is a robust, scalable backend solution designed to manage inventory, product composition, and production planning. Built with **Java 21** and **Spring Boot 3**, this application adheres to modern software architecture principles, ensuring high cohesion, low coupling, and strict separation of concerns (SoC) through a layered architecture.
 
 The system is engineered to handle complex business logic, such as the **Production Suggestion Algorithm (RF008)**, which optimizes manufacturing output based on current stock levels and product value prioritization.
