@@ -47,6 +47,7 @@ class RawMaterialControllerTest {
 
     @Test
     void findAll_ShouldReturnListOfRawMaterials() throws Exception {
+        // Deve retornar uma lista de matérias-primas com status 200 OK
         when(rawMaterialService.findAll()).thenReturn(List.of(rawMaterialResponse));
 
         mockMvc.perform(get("/raw-materials"))
@@ -58,6 +59,7 @@ class RawMaterialControllerTest {
 
     @Test
     void findById_ShouldReturnRawMaterial() throws Exception {
+        // Deve retornar uma matéria-prima específica pelo ID com status 200 OK
         when(rawMaterialService.findById(rawMaterialId)).thenReturn(rawMaterialResponse);
 
         mockMvc.perform(get("/raw-materials/{id}", rawMaterialId))
@@ -68,6 +70,7 @@ class RawMaterialControllerTest {
 
     @Test
     void create_ShouldReturnCreatedRawMaterial() throws Exception {
+        // Deve criar uma nova matéria-prima e retornar status 201 Created
         when(rawMaterialService.create(any(RawMaterialRequest.class))).thenReturn(rawMaterialResponse);
 
         mockMvc.perform(post("/raw-materials")
@@ -80,6 +83,7 @@ class RawMaterialControllerTest {
 
     @Test
     void update_ShouldReturnUpdatedRawMaterial() throws Exception {
+        // Deve atualizar uma matéria-prima existente e retornar status 200 OK
         when(rawMaterialService.update(eq(rawMaterialId), any(RawMaterialRequest.class))).thenReturn(rawMaterialResponse);
 
         mockMvc.perform(put("/raw-materials/{id}", rawMaterialId)
@@ -92,6 +96,7 @@ class RawMaterialControllerTest {
 
     @Test
     void delete_ShouldReturnNoContent() throws Exception {
+        // Deve excluir uma matéria-prima e retornar status 204 No Content
         doNothing().when(rawMaterialService).delete(rawMaterialId);
 
         mockMvc.perform(delete("/raw-materials/{id}", rawMaterialId))

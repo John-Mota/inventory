@@ -21,6 +21,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void handleResourceNotFound_ShouldReturnNotFound() {
+        // Deve retornar status 404 Not Found quando uma ResourceNotFoundException for lançada
         ResourceNotFoundException ex = new ResourceNotFoundException("Not Found");
         ResponseEntity<Map<String, Object>> response = exceptionHandler.handleResourceNotFound(ex);
 
@@ -30,6 +31,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void handleValidation_ShouldReturnBadRequest() {
+        // Deve retornar status 400 Bad Request com detalhes dos campos inválidos quando ocorrer erro de validação
         MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
         BindingResult bindingResult = mock(BindingResult.class);
         FieldError fieldError = new FieldError("object", "field", "defaultMessage");
@@ -46,6 +48,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void handleGeneral_ShouldReturnInternalServerError() {
+        // Deve retornar status 500 Internal Server Error para exceções genéricas não tratadas
         Exception ex = new Exception("Error");
         ResponseEntity<Map<String, Object>> response = exceptionHandler.handleGeneral(ex);
 

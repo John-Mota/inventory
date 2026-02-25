@@ -47,6 +47,7 @@ class RawMaterialServiceImplTest {
 
     @Test
     void findAll_ShouldReturnListOfRawMaterials() {
+        // Deve retornar uma lista de todas as matérias-primas cadastradas
         when(rawMaterialRepository.findAll()).thenReturn(List.of(rawMaterial));
 
         List<RawMaterialResponse> result = rawMaterialService.findAll();
@@ -58,6 +59,7 @@ class RawMaterialServiceImplTest {
 
     @Test
     void findById_ShouldReturnRawMaterial_WhenExists() {
+        // Deve retornar uma matéria-prima específica quando o ID for encontrado
         when(rawMaterialRepository.findById(rawMaterialId)).thenReturn(Optional.of(rawMaterial));
 
         RawMaterialResponse result = rawMaterialService.findById(rawMaterialId);
@@ -68,6 +70,7 @@ class RawMaterialServiceImplTest {
 
     @Test
     void findById_ShouldThrowException_WhenNotFound() {
+        // Deve lançar ResourceNotFoundException quando o ID da matéria-prima não for encontrado
         when(rawMaterialRepository.findById(rawMaterialId)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> rawMaterialService.findById(rawMaterialId));
@@ -75,6 +78,7 @@ class RawMaterialServiceImplTest {
 
     @Test
     void create_ShouldReturnCreatedRawMaterial() {
+        // Deve criar e retornar a nova matéria-prima salva
         when(rawMaterialRepository.save(any(RawMaterial.class))).thenReturn(rawMaterial);
 
         RawMaterialResponse result = rawMaterialService.create(rawMaterialRequest);
@@ -85,6 +89,7 @@ class RawMaterialServiceImplTest {
 
     @Test
     void update_ShouldReturnUpdatedRawMaterial() {
+        // Deve atualizar e retornar a matéria-prima modificada
         when(rawMaterialRepository.findById(rawMaterialId)).thenReturn(Optional.of(rawMaterial));
         when(rawMaterialRepository.save(any(RawMaterial.class))).thenReturn(rawMaterial);
 
@@ -96,6 +101,7 @@ class RawMaterialServiceImplTest {
 
     @Test
     void delete_ShouldCallRepositoryDelete() {
+        // Deve chamar o método deleteById do repositório para remover a matéria-prima
         doNothing().when(rawMaterialRepository).deleteById(rawMaterialId);
 
         rawMaterialService.delete(rawMaterialId);

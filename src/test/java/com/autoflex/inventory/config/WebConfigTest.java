@@ -9,6 +9,7 @@ class WebConfigTest {
 
     @Test
     void addCorsMappings_ShouldConfigureCors() {
+        // Deve configurar corretamente o CORS permitindo todas as origens, métodos e cabeçalhos
         WebConfig webConfig = new WebConfig();
         CorsRegistry registry = mock(CorsRegistry.class);
         org.springframework.web.servlet.config.annotation.CorsRegistration registration = mock(org.springframework.web.servlet.config.annotation.CorsRegistration.class);

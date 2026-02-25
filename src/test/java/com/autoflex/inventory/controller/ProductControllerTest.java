@@ -51,6 +51,7 @@ class ProductControllerTest {
 
     @Test
     void findAll_ShouldReturnListOfProducts() throws Exception {
+        // Deve retornar uma lista de produtos com status 200 OK
         when(productService.findAll()).thenReturn(List.of(productResponse));
 
         mockMvc.perform(get("/products"))
@@ -62,6 +63,7 @@ class ProductControllerTest {
 
     @Test
     void findById_ShouldReturnProduct() throws Exception {
+        // Deve retornar um produto específico pelo ID com status 200 OK
         when(productService.findById(productId)).thenReturn(productResponse);
 
         mockMvc.perform(get("/products/{id}", productId))
@@ -72,6 +74,7 @@ class ProductControllerTest {
 
     @Test
     void create_ShouldReturnCreatedProduct() throws Exception {
+        // Deve criar um novo produto e retornar status 201 Created
         when(productService.create(any(ProductRequest.class))).thenReturn(productResponse);
 
         mockMvc.perform(post("/products")
@@ -84,6 +87,7 @@ class ProductControllerTest {
 
     @Test
     void update_ShouldReturnUpdatedProduct() throws Exception {
+        // Deve atualizar um produto existente e retornar status 200 OK
         when(productService.update(eq(productId), any(ProductRequest.class))).thenReturn(productResponse);
 
         mockMvc.perform(put("/products/{id}", productId)
@@ -96,6 +100,7 @@ class ProductControllerTest {
 
     @Test
     void delete_ShouldReturnNoContent() throws Exception {
+        // Deve excluir um produto e retornar status 204 No Content
         doNothing().when(productService).delete(productId);
 
         mockMvc.perform(delete("/products/{id}", productId))
@@ -104,6 +109,7 @@ class ProductControllerTest {
 
     @Test
     void addRawMaterial_ShouldReturnCreated() throws Exception {
+        // Deve adicionar uma matéria-prima ao produto e retornar status 201 Created
         UUID rawMaterialId = UUID.randomUUID();
         ProductRawMaterialRequest request = new ProductRawMaterialRequest(rawMaterialId, 5.0);
         ProductRawMaterialResponse response = new ProductRawMaterialResponse(UUID.randomUUID(), rawMaterialId, "Raw Material", 5.0);
@@ -119,6 +125,7 @@ class ProductControllerTest {
 
     @Test
     void removeRawMaterial_ShouldReturnNoContent() throws Exception {
+        // Deve remover uma matéria-prima do produto e retornar status 204 No Content
         UUID productRawMaterialId = UUID.randomUUID();
         doNothing().when(productService).removeRawMaterial(productRawMaterialId);
 

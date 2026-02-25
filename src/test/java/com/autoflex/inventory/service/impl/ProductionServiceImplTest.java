@@ -63,6 +63,7 @@ class ProductionServiceImplTest {
 
     @Test
     void getSuggestions_ShouldReturnCorrectQuantity() {
+        // Deve calcular corretamente a quantidade de produtos que podem ser produzidos com base no estoque
         when(rawMaterialRepository.findAll()).thenReturn(List.of(rawMaterial));
         when(productRepository.findAll()).thenReturn(List.of(product));
 
@@ -70,12 +71,13 @@ class ProductionServiceImplTest {
 
         assertFalse(suggestions.isEmpty());
         assertEquals(1, suggestions.size());
-        assertEquals(10, suggestions.get(0).quantity()); // 100 stock / 10 required = 10 units
+        assertEquals(10, suggestions.get(0).quantity()); // 100 estoque / 10 necessário = 10 unidades
     }
 
     @Test
     void getSuggestions_ShouldReturnZero_WhenStockIsInsufficient() {
-        rawMaterial.setStockQuantity(5.0); // Less than required (10.0)
+        // Não deve retornar sugestões quando o estoque for insuficiente para produzir sequer uma unidade
+        rawMaterial.setStockQuantity(5.0); // Menos que o necessário (10.0)
         when(rawMaterialRepository.findAll()).thenReturn(List.of(rawMaterial));
         when(productRepository.findAll()).thenReturn(List.of(product));
 
@@ -86,6 +88,7 @@ class ProductionServiceImplTest {
 
     @Test
     void getSuggestions_ShouldPrioritizeHigherValueProducts() {
+        // Deve priorizar a produção de produtos com maior valor, consumindo o estoque disponível
         Product cheapProduct = Product.builder()
                 .id(UUID.randomUUID())
                 .name("Stool")
@@ -101,29 +104,24 @@ class ProductionServiceImplTest {
 
         cheapProduct.setRawMaterials(List.of(prmCheap));
 
-        // Total stock 100. Chair needs 10, Stool needs 10.
-        // Chair value 50, Stool value 20.
-        // Should produce as many Chairs as possible first.
+        // Estoque total 100. Cadeira precisa de 10, Banqueta precisa de 10.
+        // Valor da Cadeira 50, Valor da Banqueta 20.
+        // Deve produzir o máximo de Cadeiras possível primeiro.
 
         when(rawMaterialRepository.findAll()).thenReturn(List.of(rawMaterial));
         when(productRepository.findAll()).thenReturn(List.of(product, cheapProduct));
 
         List<ProductionSuggestionResponse> suggestions = productionService.getSuggestions();
 
-        // The order of suggestions depends on the sorting logic in the service.
-        // The service sorts by value descending.
-        // Chair (50.0) > Stool (20.0)
+        // A ordem das sugestões depende da lógica de ordenação no serviço.
+        // O serviço ordena por valor decrescente.
+        // Cadeira (50.0) > Banqueta (20.0)
         
-        // However, the assertion expected 2 suggestions, but got 1.
-        // This likely means the second product (Stool) was not added to the list because quantity was 0.
-        // Let's check the service logic.
-        // The service logic: if (quantity <= 0) continue;
-        
-        // In this test case:
-        // Chair consumes 10 * 10 = 100 stock.
-        // Remaining stock = 0.
-        // Stool needs 10. Available 0. Quantity = 0.
-        // So Stool is skipped.
+        // Neste caso de teste:
+        // Cadeira consome 10 * 10 = 100 de estoque.
+        // Estoque restante = 0.
+        // Banqueta precisa de 10. Disponível 0. Quantidade = 0.
+        // Então a Banqueta é ignorada.
         
         assertEquals(1, suggestions.size());
         assertEquals("Chair", suggestions.get(0).productName());
@@ -132,6 +130,7 @@ class ProductionServiceImplTest {
     
     @Test
     void getSuggestions_ShouldHandleProductsWithoutRawMaterials() {
+        // Deve lidar corretamente com produtos que não possuem matérias-primas cadastradas (não sugerir produção)
         product.setRawMaterials(Collections.emptyList());
         when(rawMaterialRepository.findAll()).thenReturn(List.of(rawMaterial));
         when(productRepository.findAll()).thenReturn(List.of(product));

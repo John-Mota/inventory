@@ -62,6 +62,7 @@ class ProductServiceImplTest {
 
     @Test
     void findAll_ShouldReturnListOfProducts() {
+        // Deve retornar uma lista de produtos quando existirem no banco de dados
         when(productRepository.findAll()).thenReturn(List.of(product));
         when(productRawMaterialRepository.findByProductId(productId)).thenReturn(Collections.emptyList());
 
@@ -74,6 +75,7 @@ class ProductServiceImplTest {
 
     @Test
     void findById_ShouldReturnProduct_WhenExists() {
+        // Deve retornar um produto específico quando o ID existir
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
         when(productRawMaterialRepository.findByProductId(productId)).thenReturn(Collections.emptyList());
 
@@ -85,6 +87,7 @@ class ProductServiceImplTest {
 
     @Test
     void findById_ShouldThrowException_WhenNotFound() {
+        // Deve lançar exceção ResourceNotFoundException quando o produto não for encontrado
         when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> productService.findById(productId));
@@ -92,6 +95,7 @@ class ProductServiceImplTest {
 
     @Test
     void create_ShouldReturnCreatedProduct() {
+        // Deve criar e retornar o produto salvo
         when(productRepository.save(any(Product.class))).thenReturn(product);
         when(productRawMaterialRepository.findByProductId(productId)).thenReturn(Collections.emptyList());
 
@@ -103,6 +107,7 @@ class ProductServiceImplTest {
 
     @Test
     void update_ShouldReturnUpdatedProduct() {
+        // Deve atualizar e retornar o produto modificado
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
         when(productRepository.save(any(Product.class))).thenReturn(product);
         when(productRawMaterialRepository.findByProductId(productId)).thenReturn(Collections.emptyList());
@@ -115,6 +120,7 @@ class ProductServiceImplTest {
 
     @Test
     void delete_ShouldCallRepositoryDelete() {
+        // Deve chamar o método deleteById do repositório
         doNothing().when(productRepository).deleteById(productId);
 
         productService.delete(productId);
@@ -124,6 +130,7 @@ class ProductServiceImplTest {
 
     @Test
     void addRawMaterial_ShouldReturnResponse() {
+        // Deve adicionar uma matéria-prima ao produto e retornar a resposta correspondente
         UUID rawMaterialId = UUID.randomUUID();
         RawMaterial rawMaterial = RawMaterial.builder().id(rawMaterialId).name("Raw Material").stockQuantity(100.0).build();
         ProductRawMaterialRequest request = new ProductRawMaterialRequest(rawMaterialId, 5.0);
@@ -146,6 +153,7 @@ class ProductServiceImplTest {
 
     @Test
     void removeRawMaterial_ShouldCallRepositoryDelete() {
+        // Deve chamar o método deleteById do repositório de matérias-primas do produto
         UUID prmId = UUID.randomUUID();
         doNothing().when(productRawMaterialRepository).deleteById(prmId);
 

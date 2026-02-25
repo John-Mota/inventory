@@ -28,6 +28,7 @@ class ProductionControllerTest {
 
     @Test
     void getSuggestions_ShouldReturnListOfSuggestions() throws Exception {
+        // Deve retornar uma lista de sugestões de produção com status 200 OK
         UUID productId = UUID.randomUUID();
         ProductionSuggestionResponse suggestion = new ProductionSuggestionResponse(
                 productId, "Product A", BigDecimal.TEN, 5
@@ -45,6 +46,7 @@ class ProductionControllerTest {
 
     @Test
     void getSuggestions_ShouldReturnEmptyList_WhenNoSuggestions() throws Exception {
+        // Deve retornar uma lista vazia quando não houver sugestões, com status 200 OK
         when(productionService.getSuggestions()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/production/suggestions"))
